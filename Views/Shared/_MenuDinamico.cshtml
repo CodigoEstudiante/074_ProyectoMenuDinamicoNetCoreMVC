@@ -1,0 +1,53 @@
+﻿@using System.Text.Json;
+@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor HttpContextAccessor;
+@{
+    string menuJson = HttpContextAccessor.HttpContext.Session.GetString("menu");
+    List<Menu> listaMenu = JsonSerializer.Deserialize<List<Menu>>(menuJson);
+
+}
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+    
+    @foreach(var menu in listaMenu)
+    {
+        bool tiene_submenu = menu.InverseIdMenuPadreNavigation.Count > 0 ? true : false;
+        string claseMenu = tiene_submenu ? "nav-item dropdown" : "nav-item";
+
+
+        <li class="@claseMenu">
+
+            @if (tiene_submenu)
+            {
+                <a class="nav-link dropdown-toggle" href="@menu.Url" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    @menu.Descripcion
+                  </a>
+
+
+                  <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        @foreach(var submenu in menu.InverseIdMenuPadreNavigation)
+                        {
+                            <li><a class="dropdown-item" href="@submenu.Url">@submenu.Descripcion</a></li>
+                        }
+                  </ul>
+             }
+             else
+                {
+                   <a class="nav-link" href="@menu.Url" aria-current="page">
+                    @menu.Descripcion
+                  </a>
+ 
+
+                }
+
+        </li>
+
+    }
+
+
+        
+       
+</ul>

@@ -1,0 +1,29 @@
+create table Menu(
+idMenu int primary key identity(1,1),
+descripcion varchar(50),
+idMenuPadre int references Menu(idMenu),
+url varchar(50)
+)
+
+select * from Menu
+
+
+--MENU 1
+insert into Menu(descripcion,url) values ('Menu 1','')
+--MENU 2
+insert into Menu(descripcion,url) values ('Menu 2','')
+--MENU 3
+insert into Menu(descripcion,url) values ('Menu 3','#')
+
+--SUB MENU 1
+insert into Menu(descripcion,idMenuPadre,url) values ('Menu 1.1',1,'#')
+
+--SUB MENU 2
+insert into Menu(descripcion,idMenuPadre,url) values ('Menu 2.1',2,'#')
+insert into Menu(descripcion,idMenuPadre,url) values ('Menu 2.2',2,'#')
+
+
+---------------- ULTIMO MENU ----
+insert into Menu(descripcion,url) values ('Administracion','')
+select * from Menu
+insert into Menu(descripcion,idMenuPadre,url) values ('Crear Usuario',7,'#')
